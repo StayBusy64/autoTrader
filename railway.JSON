@@ -1,0 +1,11 @@
+{
+  "name": "supertrend-webhook-backend",
+  "start": "uvicorn server:app --host 0.0.0.0 --port $PORT",
+  "env": {
+    "WEBHOOK_SECRET": {"from": "env"},
+    "BINANCE_API_KEY": {"from": "env"},
+    "BINANCE_API_SECRET": {"from": "env"},
+    "ENABLE_TRADING": {"from": "env"},
+    "MAX_POSITION_SIZE": {"from": "env"}
+  }
+}
