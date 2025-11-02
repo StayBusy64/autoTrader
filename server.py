@@ -58,3 +58,7 @@ async def status():
         "allowed_symbols": ALLOWED_SYMBOLS,
         "webhook_secret_configured": WEBHOOK_SECRET != "default_secret_change_me"
     }
+
+@app.get("/")
+def home():
+    return {"status": "ok", "message": "AutoTrader backend is live ??"}
