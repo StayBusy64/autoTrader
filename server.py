@@ -15,7 +15,7 @@ logging.basicConfig(
 
 app = FastAPI(title="AutoTrader Webhook")
 
-WEBHOOK_SECRET = 'qwertyuiopoiuytrewq'
+WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET")
 DAILY_LOSS_CAP = -250.0
 ALLOWED_SYMBOLS = ["BTCUSDT", "ETHUSDT", "LTCUSDT"]
 session_pnl = 0.0
@@ -62,4 +62,5 @@ async def status():
 @app.get("/")
 def home():
     return {"status": "ok", "message": "AutoTrader backend is live ??"}
+
 
