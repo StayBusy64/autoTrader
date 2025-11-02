@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request, HTTPException
+﻿from fastapi import FastAPI, Request, HTTPException
 from pydantic import BaseModel
 from datetime import datetime
 import hmac
@@ -15,7 +15,7 @@ logging.basicConfig(
 
 app = FastAPI(title="AutoTrader Webhook")
 
-WEBHOOK_SECRET = os.getenv("WEBHOOK_SECRET", "default_secret_change_me")
+WEBHOOK_SECRET = 'qwertyuiopoiuytrewq'
 DAILY_LOSS_CAP = -250.0
 ALLOWED_SYMBOLS = ["BTCUSDT", "ETHUSDT", "LTCUSDT"]
 session_pnl = 0.0
@@ -62,3 +62,4 @@ async def status():
 @app.get("/")
 def home():
     return {"status": "ok", "message": "AutoTrader backend is live ??"}
+
