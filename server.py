@@ -1,4 +1,4 @@
-﻿from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, HTTPException
 from pydantic import BaseModel
 from datetime import datetime
 import hmac
