@@ -1,0 +1,23 @@
+# LTCUSD Scalper Bot Requirements
+
+# Core backtesting framework
+backtrader==1.9.78.123
+
+# Data handling
+pandas>=1.5.0
+numpy>=1.23.0
+
+# Visualization (optional but recommended)
+matplotlib>=3.6.0
+
+# Live trading integration
+requests>=2.28.0
+python-dotenv>=0.21.0
+
+# API/Webhook support
+fastapi>=0.95.0
+uvicorn>=0.21.0
+pydantic>=1.10.0
+
+# Optional: Enhanced performance
+numba>=0.56.0  # JIT compilation for faster backtests
