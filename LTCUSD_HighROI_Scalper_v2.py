@@ -1,7 +1,7 @@
 import backtrader as bt
 from datetime import datetime, time
 
-class LTCUSD_HighROI_Scalper_v2(bt.Strategy):
+class LTCUSD_ScalperBot_1m(bt.Strategy):
     """
     High-Performance Scalping Strategy for LTCUSD on 1-minute timeframe
 
@@ -15,10 +15,12 @@ class LTCUSD_HighROI_Scalper_v2(bt.Strategy):
     """
 
     params = (
-        # EMA Trend Detection (Faster for scalping)
+        # EMA Trend Detection (Faster for scalping) - Backward compatible
         ('fast_ema', 5),
+        ('fast_ema_period', 5),
         ('medium_ema', 13),
         ('slow_ema', 21),
+        ('slow_ema_period', 21),
 
         # RSI Momentum
         ('rsi_period', 14),
@@ -35,38 +37,48 @@ class LTCUSD_HighROI_Scalper_v2(bt.Strategy):
         ('bb_period', 20),
         ('bb_dev', 2.0),
 
-        # ATR Position Sizing & Stops
+        # ATR Position Sizing & Stops - Backward compatible
         ('atr_period', 14),
+        ('atr_multiplier', 2.0),
         ('atr_stop_multiplier', 1.5),    # Tight stop for scalping
         ('atr_target_multiplier', 2.5),  # Good R:R ratio
 
         # Volume Detection
         ('volume_period', 20),
         ('volume_surge_multiplier', 1.5),  # 50% above average
+        ('use_volume_filter', False),      # Backward compatible
+        ('volume_ma_period', 20),          # Backward compatible
+        ('volume_threshold', 1.2),         # Backward compatible
 
-        # Trailing Stop
+        # Trailing Stop - Backward compatible
         ('use_trailing_stop', True),
         ('trailing_activation_atr', 1.0),  # Activate after 1 ATR profit
         ('trailing_distance_atr', 0.8),    # Trail 0.8 ATR behind
+        ('trailing_stop_activation', 1.0), # Backward compatible
+        ('trailing_stop_distance', 0.8),   # Backward compatible
 
         # Partial Profit Taking
         ('use_partial_exit', True),
         ('partial_exit_pct', 0.5),         # Close 50% at first target
         ('partial_target_atr', 1.5),       # First target at 1.5 ATR
 
-        # Risk Management
+        # Risk Management - Backward compatible
         ('risk_per_trade', 1.0),           # 1% risk per trade
         ('max_position_size', 2.0),        # Max 2 lots
         ('max_daily_loss_pct', 3.0),       # Stop trading after 3% daily loss
+        ('max_daily_drawdown_pct', 3.0),   # Backward compatible
         ('max_daily_trades', 15),          # Limit overtrading
         ('max_consecutive_losses', 3),     # Cool down after 3 losses
         ('cooldown_after_loss', 2),        # Wait 2 bars after loss
+        ('cooldown_bars', 2),              # Backward compatible
 
-        # Session Filter (Extended for crypto - 24/7 but avoid low volume)
+        # Session Filter - Backward compatible
         ('trade_24_7', True),              # Crypto trades 24/7
         ('avoid_low_volume_hours', True),
         ('low_volume_start', 0),           # Midnight
         ('low_volume_end', 4),             # 4 AM UTC
+        ('session_start', 0),              # Backward compatible
+        ('session_end', 23),               # Backward compatible
 
         # Market Condition Filters
         ('min_volatility_percentile', 30), # Avoid dead markets
@@ -78,6 +90,12 @@ class LTCUSD_HighROI_Scalper_v2(bt.Strategy):
         ('require_volume_surge', True),
         ('require_macd_agreement', True),
         ('allow_bb_breakout', True),       # Trade BB breakouts
+
+        # Backward compatible unused params
+        ('use_momentum_filter', False),
+        ('momentum_threshold', 0.0),
+        ('avoid_first_minutes', 0),
+        ('avoid_last_minutes', 0),
     )
 
     def _safe_param(self, value, default):
@@ -89,20 +107,25 @@ class LTCUSD_HighROI_Scalper_v2(bt.Strategy):
     def __init__(self):
         # Default values for TradeLocker compatibility
         defaults = {
-            'fast_ema': 5, 'medium_ema': 13, 'slow_ema': 21,
+            'fast_ema': 5, 'fast_ema_period': 5, 'medium_ema': 13, 'slow_ema': 21, 'slow_ema_period': 21,
             'rsi_period': 14, 'rsi_overbought': 65, 'rsi_oversold': 35, 'rsi_midline': 50,
             'macd_fast': 12, 'macd_slow': 26, 'macd_signal': 9,
             'bb_period': 20, 'bb_dev': 2.0,
-            'atr_period': 14, 'atr_stop_multiplier': 1.5, 'atr_target_multiplier': 2.5,
+            'atr_period': 14, 'atr_multiplier': 2.0, 'atr_stop_multiplier': 1.5, 'atr_target_multiplier': 2.5,
             'volume_period': 20, 'volume_surge_multiplier': 1.5,
+            'use_volume_filter': False, 'volume_ma_period': 20, 'volume_threshold': 1.2,
             'use_trailing_stop': True, 'trailing_activation_atr': 1.0, 'trailing_distance_atr': 0.8,
+            'trailing_stop_activation': 1.0, 'trailing_stop_distance': 0.8,
             'use_partial_exit': True, 'partial_exit_pct': 0.5, 'partial_target_atr': 1.5,
-            'risk_per_trade': 1.0, 'max_position_size': 2.0, 'max_daily_loss_pct': 3.0,
-            'max_daily_trades': 15, 'max_consecutive_losses': 3, 'cooldown_after_loss': 2,
+            'risk_per_trade': 1.0, 'max_position_size': 2.0, 'max_daily_loss_pct': 3.0, 'max_daily_drawdown_pct': 3.0,
+            'max_daily_trades': 15, 'max_consecutive_losses': 3, 'cooldown_after_loss': 2, 'cooldown_bars': 2,
             'trade_24_7': True, 'avoid_low_volume_hours': True, 'low_volume_start': 0, 'low_volume_end': 4,
+            'session_start': 0, 'session_end': 23,
             'min_volatility_percentile': 30, 'max_volatility_percentile': 95,
             'require_trend': True, 'min_trend_strength': 0.3,
             'require_volume_surge': True, 'require_macd_agreement': True, 'allow_bb_breakout': True,
+            'use_momentum_filter': False, 'momentum_threshold': 0.0,
+            'avoid_first_minutes': 0, 'avoid_last_minutes': 0,
         }
 
         # Extract and validate all parameters
@@ -197,6 +220,10 @@ class LTCUSD_HighROI_Scalper_v2(bt.Strategy):
         self.allow_bb = self._safe_param(self.params.allow_bb_breakout, defaults['allow_bb_breakout'])
         self.req_trend = self._safe_param(self.params.require_trend, defaults['require_trend'])
         self.min_trend = self._safe_param(self.params.min_trend_strength, defaults['min_trend_strength'])
+
+        # Backward compatible parameters
+        self.use_vol_filter_old = self._safe_param(self.params.use_volume_filter, defaults['use_volume_filter'])
+        self.use_momentum = self._safe_param(self.params.use_momentum_filter, defaults['use_momentum_filter'])
 
         # Store periods for min data check
         self.max_period = max(slow_ema, rsi_period, macd_slow, bb_period, atr_period, volume_period)
