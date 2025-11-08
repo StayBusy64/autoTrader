@@ -40,8 +40,8 @@ class LTCUSD_ScalperBot_1m(bt.Strategy):
         # ATR Position Sizing & Stops - Backward compatible
         ('atr_period', 14),
         ('atr_multiplier', 2.0),
-        ('atr_stop_multiplier', 1.5),    # Tight stop for scalping
-        ('atr_target_multiplier', 2.5),  # Good R:R ratio
+        ('atr_stop_multiplier', 1.2),    # Tighter stop for scalping (was 1.5)
+        ('atr_target_multiplier', 3.0),  # Higher R:R ratio (was 2.5)
 
         # Volume Detection
         ('volume_period', 20),
@@ -63,14 +63,14 @@ class LTCUSD_ScalperBot_1m(bt.Strategy):
         ('partial_target_atr', 1.5),       # First target at 1.5 ATR
 
         # Risk Management - Backward compatible
-        ('risk_per_trade', 1.0),           # 1% risk per trade
-        ('max_position_size', 2.0),        # Max 2 lots
-        ('max_daily_loss_pct', 3.0),       # Stop trading after 3% daily loss
-        ('max_daily_drawdown_pct', 3.0),   # Backward compatible
-        ('max_daily_trades', 15),          # Limit overtrading
-        ('max_consecutive_losses', 3),     # Cool down after 3 losses
-        ('cooldown_after_loss', 2),        # Wait 2 bars after loss
-        ('cooldown_bars', 2),              # Backward compatible
+        ('risk_per_trade', 2.0),           # 2% risk per trade (more aggressive)
+        ('max_position_size', 5.0),        # Max 5 lots (higher ceiling)
+        ('max_daily_loss_pct', 5.0),       # Stop trading after 5% daily loss
+        ('max_daily_drawdown_pct', 5.0),   # Backward compatible
+        ('max_daily_trades', 20),          # Allow more trades
+        ('max_consecutive_losses', 4),     # Cool down after 4 losses (was 3)
+        ('cooldown_after_loss', 1),        # Wait 1 bar after loss (faster recovery)
+        ('cooldown_bars', 1),              # Backward compatible
 
         # Session Filter - Backward compatible
         ('trade_24_7', True),              # Crypto trades 24/7
@@ -111,14 +111,14 @@ class LTCUSD_ScalperBot_1m(bt.Strategy):
             'rsi_period': 14, 'rsi_overbought': 70, 'rsi_oversold': 30, 'rsi_midline': 50,
             'macd_fast': 12, 'macd_slow': 26, 'macd_signal': 9,
             'bb_period': 20, 'bb_dev': 2.0,
-            'atr_period': 14, 'atr_multiplier': 2.0, 'atr_stop_multiplier': 1.5, 'atr_target_multiplier': 2.5,
+            'atr_period': 14, 'atr_multiplier': 2.0, 'atr_stop_multiplier': 1.2, 'atr_target_multiplier': 3.0,
             'volume_period': 20, 'volume_surge_multiplier': 1.5,
             'use_volume_filter': False, 'volume_ma_period': 20, 'volume_threshold': 1.2,
             'use_trailing_stop': True, 'trailing_activation_atr': 1.0, 'trailing_distance_atr': 0.8,
             'trailing_stop_activation': 1.0, 'trailing_stop_distance': 0.8,
             'use_partial_exit': True, 'partial_exit_pct': 0.5, 'partial_target_atr': 1.5,
-            'risk_per_trade': 1.0, 'max_position_size': 2.0, 'max_daily_loss_pct': 3.0, 'max_daily_drawdown_pct': 3.0,
-            'max_daily_trades': 15, 'max_consecutive_losses': 3, 'cooldown_after_loss': 2, 'cooldown_bars': 2,
+            'risk_per_trade': 2.0, 'max_position_size': 5.0, 'max_daily_loss_pct': 5.0, 'max_daily_drawdown_pct': 5.0,
+            'max_daily_trades': 20, 'max_consecutive_losses': 4, 'cooldown_after_loss': 1, 'cooldown_bars': 1,
             'trade_24_7': True, 'avoid_low_volume_hours': False, 'low_volume_start': 0, 'low_volume_end': 4,
             'session_start': 0, 'session_end': 23,
             'min_volatility_percentile': 30, 'max_volatility_percentile': 95,
