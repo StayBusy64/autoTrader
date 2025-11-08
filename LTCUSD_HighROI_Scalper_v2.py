@@ -24,8 +24,8 @@ class LTCUSD_ScalperBot_1m(bt.Strategy):
 
         # RSI Momentum
         ('rsi_period', 14),
-        ('rsi_overbought', 65),  # Less extreme for more signals
-        ('rsi_oversold', 35),
+        ('rsi_overbought', 70),  # Wider range for scalping
+        ('rsi_oversold', 30),
         ('rsi_midline', 50),
 
         # MACD Trend Strength
@@ -74,7 +74,7 @@ class LTCUSD_ScalperBot_1m(bt.Strategy):
 
         # Session Filter - Backward compatible
         ('trade_24_7', True),              # Crypto trades 24/7
-        ('avoid_low_volume_hours', True),
+        ('avoid_low_volume_hours', False), # Trade all hours for more signals
         ('low_volume_start', 0),           # Midnight
         ('low_volume_end', 4),             # 4 AM UTC
         ('session_start', 0),              # Backward compatible
@@ -83,12 +83,12 @@ class LTCUSD_ScalperBot_1m(bt.Strategy):
         # Market Condition Filters
         ('min_volatility_percentile', 30), # Avoid dead markets
         ('max_volatility_percentile', 95), # Avoid extreme chaos
-        ('require_trend', True),           # Only trade with trend
-        ('min_trend_strength', 0.3),       # Minimum EMA separation
+        ('require_trend', False),          # More flexible - don't require strong trend
+        ('min_trend_strength', 0.15),      # Lower threshold when enabled
 
         # Entry Confirmation
-        ('require_volume_surge', True),
-        ('require_macd_agreement', True),
+        ('require_volume_surge', False),   # More trades - volume is secondary
+        ('require_macd_agreement', False), # More trades - MACD is secondary
         ('allow_bb_breakout', True),       # Trade BB breakouts
 
         # Backward compatible unused params
@@ -108,7 +108,7 @@ class LTCUSD_ScalperBot_1m(bt.Strategy):
         # Default values for TradeLocker compatibility
         defaults = {
             'fast_ema': 5, 'fast_ema_period': 5, 'medium_ema': 13, 'slow_ema': 21, 'slow_ema_period': 21,
-            'rsi_period': 14, 'rsi_overbought': 65, 'rsi_oversold': 35, 'rsi_midline': 50,
+            'rsi_period': 14, 'rsi_overbought': 70, 'rsi_oversold': 30, 'rsi_midline': 50,
             'macd_fast': 12, 'macd_slow': 26, 'macd_signal': 9,
             'bb_period': 20, 'bb_dev': 2.0,
             'atr_period': 14, 'atr_multiplier': 2.0, 'atr_stop_multiplier': 1.5, 'atr_target_multiplier': 2.5,
@@ -119,11 +119,11 @@ class LTCUSD_ScalperBot_1m(bt.Strategy):
             'use_partial_exit': True, 'partial_exit_pct': 0.5, 'partial_target_atr': 1.5,
             'risk_per_trade': 1.0, 'max_position_size': 2.0, 'max_daily_loss_pct': 3.0, 'max_daily_drawdown_pct': 3.0,
             'max_daily_trades': 15, 'max_consecutive_losses': 3, 'cooldown_after_loss': 2, 'cooldown_bars': 2,
-            'trade_24_7': True, 'avoid_low_volume_hours': True, 'low_volume_start': 0, 'low_volume_end': 4,
+            'trade_24_7': True, 'avoid_low_volume_hours': False, 'low_volume_start': 0, 'low_volume_end': 4,
             'session_start': 0, 'session_end': 23,
             'min_volatility_percentile': 30, 'max_volatility_percentile': 95,
-            'require_trend': True, 'min_trend_strength': 0.3,
-            'require_volume_surge': True, 'require_macd_agreement': True, 'allow_bb_breakout': True,
+            'require_trend': False, 'min_trend_strength': 0.15,
+            'require_volume_surge': False, 'require_macd_agreement': False, 'allow_bb_breakout': True,
             'use_momentum_filter': False, 'momentum_threshold': 0.0,
             'avoid_first_minutes': 0, 'avoid_last_minutes': 0,
         }
