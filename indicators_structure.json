@@ -1,0 +1,542 @@
+[
+  {
+    "Name": "SMA_20",
+    "Title": "Simple Moving Average (20)",
+    "Category": "Trend Indicators",
+    "FileType": "Python",
+    "Version": "1.0",
+    "Author": "TradingView",
+    "RelativePath": "indicators/trend/sma_20.py",
+    "LastModified": "2025-01-15"
+  },
+  {
+    "Name": "EMA_50",
+    "Title": "Exponential Moving Average (50)",
+    "Category": "Trend Indicators",
+    "FileType": "Python",
+    "Version": "1.2",
+    "Author": "TradingView",
+    "RelativePath": "indicators/trend/ema_50.py",
+    "LastModified": "2025-01-20"
+  },
+  {
+    "Name": "MACD",
+    "Title": "Moving Average Convergence Divergence",
+    "Category": "Trend Indicators",
+    "FileType": "Python",
+    "Version": "2.0",
+    "Author": "Gerald Appel",
+    "RelativePath": "indicators/trend/macd.py",
+    "LastModified": "2025-02-01"
+  },
+  {
+    "Name": "ADX",
+    "Title": "Average Directional Index",
+    "Category": "Trend Indicators",
+    "FileType": "Python",
+    "Version": "1.5",
+    "Author": "J. Welles Wilder",
+    "RelativePath": "indicators/trend/adx.py",
+    "LastModified": "2025-01-28"
+  },
+  {
+    "Name": "Parabolic_SAR",
+    "Title": "Parabolic Stop and Reverse",
+    "Category": "Trend Indicators",
+    "FileType": "Python",
+    "Version": "1.0",
+    "Author": "J. Welles Wilder",
+    "RelativePath": "indicators/trend/parabolic_sar.py",
+    "LastModified": "2025-01-10"
+  },
+  {
+    "Name": "Supertrend",
+    "Title": "Supertrend Indicator",
+    "Category": "Trend Indicators",
+    "FileType": "Python",
+    "Version": "3.0",
+    "Author": "Olivier Seban",
+    "RelativePath": "indicators/trend/supertrend.py",
+    "LastModified": "2025-02-05"
+  },
+  {
+    "Name": "Ichimoku_Cloud",
+    "Title": "Ichimoku Kinko Hyo",
+    "Category": "Trend Indicators",
+    "FileType": "Python",
+    "Version": "1.8",
+    "Author": "Goichi Hosoda",
+    "RelativePath": "indicators/trend/ichimoku.py",
+    "LastModified": "2025-01-25"
+  },
+  {
+    "Name": "RSI",
+    "Title": "Relative Strength Index",
+    "Category": "Momentum Indicators",
+    "FileType": "Python",
+    "Version": "2.1",
+    "Author": "J. Welles Wilder",
+    "RelativePath": "indicators/momentum/rsi.py",
+    "LastModified": "2025-02-10"
+  },
+  {
+    "Name": "Stochastic_Oscillator",
+    "Title": "Stochastic Oscillator",
+    "Category": "Momentum Indicators",
+    "FileType": "Python",
+    "Version": "1.5",
+    "Author": "George Lane",
+    "RelativePath": "indicators/momentum/stochastic.py",
+    "LastModified": "2025-01-18"
+  },
+  {
+    "Name": "CCI",
+    "Title": "Commodity Channel Index",
+    "Category": "Momentum Indicators",
+    "FileType": "Python",
+    "Version": "1.0",
+    "Author": "Donald Lambert",
+    "RelativePath": "indicators/momentum/cci.py",
+    "LastModified": "2025-01-12"
+  },
+  {
+    "Name": "Williams_R",
+    "Title": "Williams %R",
+    "Category": "Momentum Indicators",
+    "FileType": "Python",
+    "Version": "1.3",
+    "Author": "Larry Williams",
+    "RelativePath": "indicators/momentum/williams_r.py",
+    "LastModified": "2025-01-22"
+  },
+  {
+    "Name": "ROC",
+    "Title": "Rate of Change",
+    "Category": "Momentum Indicators",
+    "FileType": "Python",
+    "Version": "1.0",
+    "Author": "TradingView",
+    "RelativePath": "indicators/momentum/roc.py",
+    "LastModified": "2025-01-08"
+  },
+  {
+    "Name": "MFI",
+    "Title": "Money Flow Index",
+    "Category": "Momentum Indicators",
+    "FileType": "Python",
+    "Version": "2.0",
+    "Author": "Gene Quong",
+    "RelativePath": "indicators/momentum/mfi.py",
+    "LastModified": "2025-02-03"
+  },
+  {
+    "Name": "TSI",
+    "Title": "True Strength Index",
+    "Category": "Momentum Indicators",
+    "FileType": "Python",
+    "Version": "1.2",
+    "Author": "William Blau",
+    "RelativePath": "indicators/momentum/tsi.py",
+    "LastModified": "2025-01-30"
+  },
+  {
+    "Name": "Bollinger_Bands",
+    "Title": "Bollinger Bands",
+    "Category": "Volatility Indicators",
+    "FileType": "Python",
+    "Version": "2.5",
+    "Author": "John Bollinger",
+    "RelativePath": "indicators/volatility/bollinger_bands.py",
+    "LastModified": "2025-02-08"
+  },
+  {
+    "Name": "ATR",
+    "Title": "Average True Range",
+    "Category": "Volatility Indicators",
+    "FileType": "Python",
+    "Version": "1.8",
+    "Author": "J. Welles Wilder",
+    "RelativePath": "indicators/volatility/atr.py",
+    "LastModified": "2025-02-01"
+  },
+  {
+    "Name": "Keltner_Channels",
+    "Title": "Keltner Channels",
+    "Category": "Volatility Indicators",
+    "FileType": "Python",
+    "Version": "1.4",
+    "Author": "Chester Keltner",
+    "RelativePath": "indicators/volatility/keltner.py",
+    "LastModified": "2025-01-19"
+  },
+  {
+    "Name": "Donchian_Channels",
+    "Title": "Donchian Channels",
+    "Category": "Volatility Indicators",
+    "FileType": "Python",
+    "Version": "1.0",
+    "Author": "Richard Donchian",
+    "RelativePath": "indicators/volatility/donchian.py",
+    "LastModified": "2025-01-14"
+  },
+  {
+    "Name": "Standard_Deviation",
+    "Title": "Standard Deviation",
+    "Category": "Volatility Indicators",
+    "FileType": "Python",
+    "Version": "1.1",
+    "Author": "TradingView",
+    "RelativePath": "indicators/volatility/std_dev.py",
+    "LastModified": "2025-01-11"
+  },
+  {
+    "Name": "Historical_Volatility",
+    "Title": "Historical Volatility",
+    "Category": "Volatility Indicators",
+    "FileType": "Python",
+    "Version": "1.0",
+    "Author": "TradingView",
+    "RelativePath": "indicators/volatility/historical_vol.py",
+    "LastModified": "2025-01-05"
+  },
+  {
+    "Name": "OBV",
+    "Title": "On-Balance Volume",
+    "Category": "Volume Indicators",
+    "FileType": "Python",
+    "Version": "1.6",
+    "Author": "Joe Granville",
+    "RelativePath": "indicators/volume/obv.py",
+    "LastModified": "2025-02-07"
+  },
+  {
+    "Name": "VWAP",
+    "Title": "Volume Weighted Average Price",
+    "Category": "Volume Indicators",
+    "FileType": "Python",
+    "Version": "2.2",
+    "Author": "TradingView",
+    "RelativePath": "indicators/volume/vwap.py",
+    "LastModified": "2025-02-12"
+  },
+  {
+    "Name": "Accumulation_Distribution",
+    "Title": "Accumulation/Distribution Line",
+    "Category": "Volume Indicators",
+    "FileType": "Python",
+    "Version": "1.3",
+    "Author": "Marc Chaikin",
+    "RelativePath": "indicators/volume/ad_line.py",
+    "LastModified": "2025-01-27"
+  },
+  {
+    "Name": "Chaikin_Money_Flow",
+    "Title": "Chaikin Money Flow",
+    "Category": "Volume Indicators",
+    "FileType": "Python",
+    "Version": "1.5",
+    "Author": "Marc Chaikin",
+    "RelativePath": "indicators/volume/cmf.py",
+    "LastModified": "2025-01-24"
+  },
+  {
+    "Name": "Volume_Oscillator",
+    "Title": "Volume Oscillator",
+    "Category": "Volume Indicators",
+    "FileType": "Python",
+    "Version": "1.0",
+    "Author": "TradingView",
+    "RelativePath": "indicators/volume/vol_osc.py",
+    "LastModified": "2025-01-16"
+  },
+  {
+    "Name": "PVT",
+    "Title": "Price Volume Trend",
+    "Category": "Volume Indicators",
+    "FileType": "Python",
+    "Version": "1.2",
+    "Author": "Joseph Granville",
+    "RelativePath": "indicators/volume/pvt.py",
+    "LastModified": "2025-01-21"
+  },
+  {
+    "Name": "Awesome_Oscillator",
+    "Title": "Awesome Oscillator",
+    "Category": "Oscillators",
+    "FileType": "Python",
+    "Version": "1.0",
+    "Author": "Bill Williams",
+    "RelativePath": "indicators/oscillators/awesome.py",
+    "LastModified": "2025-01-09"
+  },
+  {
+    "Name": "Aroon_Oscillator",
+    "Title": "Aroon Oscillator",
+    "Category": "Oscillators",
+    "FileType": "Python",
+    "Version": "1.4",
+    "Author": "Tushar Chande",
+    "RelativePath": "indicators/oscillators/aroon.py",
+    "LastModified": "2025-02-04"
+  },
+  {
+    "Name": "Detrended_Price_Oscillator",
+    "Title": "Detrended Price Oscillator",
+    "Category": "Oscillators",
+    "FileType": "Python",
+    "Version": "1.1",
+    "Author": "TradingView",
+    "RelativePath": "indicators/oscillators/dpo.py",
+    "LastModified": "2025-01-17"
+  },
+  {
+    "Name": "Ultimate_Oscillator",
+    "Title": "Ultimate Oscillator",
+    "Category": "Oscillators",
+    "FileType": "Python",
+    "Version": "1.7",
+    "Author": "Larry Williams",
+    "RelativePath": "indicators/oscillators/ultimate.py",
+    "LastModified": "2025-02-02"
+  },
+  {
+    "Name": "Klinger_Oscillator",
+    "Title": "Klinger Volume Oscillator",
+    "Category": "Oscillators",
+    "FileType": "Python",
+    "Version": "1.0",
+    "Author": "Stephen Klinger",
+    "RelativePath": "indicators/oscillators/klinger.py",
+    "LastModified": "2025-01-13"
+  },
+  {
+    "Name": "Pivot_Points",
+    "Title": "Pivot Points (Standard)",
+    "Category": "Support & Resistance",
+    "FileType": "Python",
+    "Version": "2.0",
+    "Author": "TradingView",
+    "RelativePath": "indicators/support_resistance/pivot_points.py",
+    "LastModified": "2025-02-09"
+  },
+  {
+    "Name": "Fibonacci_Retracement",
+    "Title": "Fibonacci Retracement Levels",
+    "Category": "Support & Resistance",
+    "FileType": "Python",
+    "Version": "1.9",
+    "Author": "Leonardo Fibonacci",
+    "RelativePath": "indicators/support_resistance/fibonacci.py",
+    "LastModified": "2025-02-06"
+  },
+  {
+    "Name": "Support_Resistance_Zones",
+    "Title": "Dynamic Support & Resistance Zones",
+    "Category": "Support & Resistance",
+    "FileType": "Python",
+    "Version": "3.1",
+    "Author": "Custom",
+    "RelativePath": "indicators/support_resistance/sr_zones.py",
+    "LastModified": "2025-02-11"
+  },
+  {
+    "Name": "Camarilla_Pivots",
+    "Title": "Camarilla Pivot Points",
+    "Category": "Support & Resistance",
+    "FileType": "Python",
+    "Version": "1.3",
+    "Author": "Nick Scott",
+    "RelativePath": "indicators/support_resistance/camarilla.py",
+    "LastModified": "2025-01-26"
+  },
+  {
+    "Name": "Mean_Reversion_Strategy",
+    "Title": "Mean Reversion Strategy with Bollinger Bands",
+    "Category": "Backtesting Strategies",
+    "FileType": "Python",
+    "Version": "2.5",
+    "Author": "StayBusy64",
+    "RelativePath": "strategies/backtesting/mean_reversion.py",
+    "LastModified": "2025-02-13"
+  },
+  {
+    "Name": "Trend_Following_Strategy",
+    "Title": "Multi-Timeframe Trend Following",
+    "Category": "Backtesting Strategies",
+    "FileType": "Python",
+    "Version": "3.2",
+    "Author": "StayBusy64",
+    "RelativePath": "strategies/backtesting/trend_following.py",
+    "LastModified": "2025-02-14"
+  },
+  {
+    "Name": "Breakout_Strategy",
+    "Title": "Volatility Breakout Strategy",
+    "Category": "Backtesting Strategies",
+    "FileType": "Python",
+    "Version": "1.8",
+    "Author": "StayBusy64",
+    "RelativePath": "strategies/backtesting/breakout.py",
+    "LastModified": "2025-02-10"
+  },
+  {
+    "Name": "RSI_Divergence_Strategy",
+    "Title": "RSI Divergence Detection & Trading",
+    "Category": "Backtesting Strategies",
+    "FileType": "Python",
+    "Version": "2.0",
+    "Author": "StayBusy64",
+    "RelativePath": "strategies/backtesting/rsi_divergence.py",
+    "LastModified": "2025-02-08"
+  },
+  {
+    "Name": "Grid_Trading_Strategy",
+    "Title": "Adaptive Grid Trading System",
+    "Category": "Backtesting Strategies",
+    "FileType": "Python",
+    "Version": "4.0",
+    "Author": "StayBusy64",
+    "RelativePath": "strategies/backtesting/grid_trading.py",
+    "LastModified": "2025-02-15"
+  },
+  {
+    "Name": "Scalping_Strategy",
+    "Title": "High-Frequency Scalping Strategy",
+    "Category": "Backtesting Strategies",
+    "FileType": "Python",
+    "Version": "1.5",
+    "Author": "StayBusy64",
+    "RelativePath": "strategies/backtesting/scalping.py",
+    "LastModified": "2025-02-05"
+  },
+  {
+    "Name": "Machine_Learning_Strategy",
+    "Title": "ML-Based Price Prediction Strategy",
+    "Category": "Backtesting Strategies",
+    "FileType": "Python",
+    "Version": "5.0",
+    "Author": "StayBusy64",
+    "RelativePath": "strategies/backtesting/ml_strategy.py",
+    "LastModified": "2025-02-16"
+  },
+  {
+    "Name": "Multi_Indicator_Confluence",
+    "Title": "Multi-Indicator Confluence System",
+    "Category": "Custom Hybrid Indicators",
+    "FileType": "Python",
+    "Version": "3.5",
+    "Author": "StayBusy64",
+    "RelativePath": "indicators/custom/multi_confluence.py",
+    "LastModified": "2025-02-12"
+  },
+  {
+    "Name": "Volatility_Adjusted_RSI",
+    "Title": "Volatility-Adjusted RSI",
+    "Category": "Custom Hybrid Indicators",
+    "FileType": "Python",
+    "Version": "2.3",
+    "Author": "StayBusy64",
+    "RelativePath": "indicators/custom/vol_adjusted_rsi.py",
+    "LastModified": "2025-02-07"
+  },
+  {
+    "Name": "Smart_Money_Index",
+    "Title": "Smart Money Concepts Indicator",
+    "Category": "Custom Hybrid Indicators",
+    "FileType": "Python",
+    "Version": "4.2",
+    "Author": "StayBusy64",
+    "RelativePath": "indicators/custom/smart_money.py",
+    "LastModified": "2025-02-14"
+  },
+  {
+    "Name": "Adaptive_EMA",
+    "Title": "Adaptive EMA with Kaufman Efficiency Ratio",
+    "Category": "Custom Hybrid Indicators",
+    "FileType": "Python",
+    "Version": "1.6",
+    "Author": "StayBusy64",
+    "RelativePath": "indicators/custom/adaptive_ema.py",
+    "LastModified": "2025-02-09"
+  },
+  {
+    "Name": "Heikin_Ashi",
+    "Title": "Heikin-Ashi Candles",
+    "Category": "Chart Patterns",
+    "FileType": "Python",
+    "Version": "1.0",
+    "Author": "TradingView",
+    "RelativePath": "indicators/chart_patterns/heikin_ashi.py",
+    "LastModified": "2025-01-23"
+  },
+  {
+    "Name": "Renko_Charts",
+    "Title": "Renko Chart Generator",
+    "Category": "Chart Patterns",
+    "FileType": "Python",
+    "Version": "2.1",
+    "Author": "TradingView",
+    "RelativePath": "indicators/chart_patterns/renko.py",
+    "LastModified": "2025-02-03"
+  },
+  {
+    "Name": "Harmonic_Patterns",
+    "Title": "Harmonic Pattern Recognition",
+    "Category": "Chart Patterns",
+    "FileType": "Python",
+    "Version": "3.0",
+    "Author": "H.M. Gartley",
+    "RelativePath": "indicators/chart_patterns/harmonic.py",
+    "LastModified": "2025-02-11"
+  },
+  {
+    "Name": "Elliott_Wave",
+    "Title": "Elliott Wave Analysis",
+    "Category": "Chart Patterns",
+    "FileType": "Python",
+    "Version": "2.8",
+    "Author": "Ralph Nelson Elliott",
+    "RelativePath": "indicators/chart_patterns/elliott_wave.py",
+    "LastModified": "2025-02-06"
+  },
+  {
+    "Name": "Risk_Reward_Calculator",
+    "Title": "Risk/Reward Ratio Calculator",
+    "Category": "Risk Management",
+    "FileType": "Python",
+    "Version": "1.5",
+    "Author": "StayBusy64",
+    "RelativePath": "tools/risk_management/rr_calculator.py",
+    "LastModified": "2025-02-10"
+  },
+  {
+    "Name": "Position_Sizer",
+    "Title": "Dynamic Position Sizing Tool",
+    "Category": "Risk Management",
+    "FileType": "Python",
+    "Version": "2.0",
+    "Author": "StayBusy64",
+    "RelativePath": "tools/risk_management/position_sizer.py",
+    "LastModified": "2025-02-13"
+  },
+  {
+    "Name": "Drawdown_Monitor",
+    "Title": "Drawdown Monitoring System",
+    "Category": "Risk Management",
+    "FileType": "Python",
+    "Version": "1.8",
+    "Author": "StayBusy64",
+    "RelativePath": "tools/risk_management/drawdown_monitor.py",
+    "LastModified": "2025-02-08"
+  },
+  {
+    "Name": "Kelly_Criterion",
+    "Title": "Kelly Criterion Position Calculator",
+    "Category": "Risk Management",
+    "FileType": "Python",
+    "Version": "1.3",
+    "Author": "John Kelly",
+    "RelativePath": "tools/risk_management/kelly_criterion.py",
+    "LastModified": "2025-02-04"
+  }
+]

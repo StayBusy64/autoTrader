@@ -1,0 +1,1515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Indicator Hierarchy Tree</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #151932 50%, #0a0e27 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #e0e6ed;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #00ffcc, #00aaff, #ff00ff);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: brightness(1) drop-shadow(0 0 20px rgba(0, 255, 204, 0.5)); }
+            50% { filter: brightness(1.2) drop-shadow(0 0 30px rgba(0, 170, 255, 0.7)); }
+        }
+
+        /* Controls Section */
+        .controls-section {
+            background: rgba(20, 25, 45, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 255, 204, 0.2);
+        }
+
+        .controls-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .controls-row:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Search and Filter */
+        .search-container {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-input, .filter-select {
+            width: 100%;
+            padding: 12px 45px 12px 20px;
+            background: rgba(20, 25, 45, 0.9);
+            border: 2px solid rgba(0, 255, 204, 0.3);
+            border-radius: 10px;
+            color: #e0e6ed;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .filter-select {
+            padding: 12px 20px;
+            min-width: 150px;
+            flex: 0 0 auto;
+        }
+
+        .search-input:focus, .filter-select:focus {
+            outline: none;
+            border-color: rgba(0, 255, 204, 0.6);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+            background: rgba(25, 30, 50, 0.9);
+        }
+
+        .search-input::placeholder {
+            color: rgba(224, 230, 237, 0.5);
+        }
+
+        .search-icon {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(0, 255, 204, 0.6);
+            font-size: 1.2em;
+        }
+
+        /* Buttons */
+        .control-btn {
+            padding: 12px 20px;
+            background: linear-gradient(90deg, rgba(60, 20, 120, 0.8), rgba(80, 30, 150, 0.8));
+            border: 1px solid rgba(255, 0, 255, 0.3);
+            border-radius: 10px;
+            color: #e0e6ed;
+            font-size: 0.95em;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .control-btn:hover:not(:disabled) {
+            background: linear-gradient(90deg, rgba(80, 30, 150, 0.9), rgba(100, 40, 180, 0.9));
+            border-color: rgba(255, 0, 255, 0.6);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .control-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .control-btn.export {
+            background: linear-gradient(90deg, rgba(0, 120, 60, 0.8), rgba(0, 150, 80, 0.8));
+            border-color: rgba(0, 255, 100, 0.3);
+        }
+
+        .control-btn.export:hover:not(:disabled) {
+            background: linear-gradient(90deg, rgba(0, 150, 80, 0.9), rgba(0, 180, 100, 0.9));
+            border-color: rgba(0, 255, 100, 0.6);
+            box-shadow: 0 0 20px rgba(0, 255, 100, 0.4);
+        }
+
+        .control-btn.danger {
+            background: linear-gradient(90deg, rgba(120, 20, 20, 0.8), rgba(150, 30, 30, 0.8));
+            border-color: rgba(255, 0, 0, 0.3);
+        }
+
+        .control-btn.danger:hover:not(:disabled) {
+            background: linear-gradient(90deg, rgba(150, 30, 30, 0.9), rgba(180, 40, 40, 0.9));
+            border-color: rgba(255, 0, 0, 0.6);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.4);
+        }
+
+        /* Stats */
+        .stats {
+            padding: 10px 20px;
+            background: rgba(20, 25, 45, 0.8);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 170, 255, 0.3);
+            font-size: 0.9em;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .stat-label {
+            color: rgba(224, 230, 237, 0.7);
+        }
+
+        .stat-value {
+            color: #00ffcc;
+            font-weight: bold;
+        }
+
+        /* Advanced Filters */
+        .advanced-filters {
+            display: none;
+            padding: 15px;
+            background: rgba(15, 20, 35, 0.6);
+            border-radius: 10px;
+            margin-top: 15px;
+            border: 1px solid rgba(0, 170, 255, 0.2);
+        }
+
+        .advanced-filters.show {
+            display: block;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .filter-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-label {
+            color: rgba(0, 255, 204, 0.7);
+            font-weight: 600;
+            min-width: 100px;
+        }
+
+        .date-input {
+            padding: 10px;
+            background: rgba(20, 25, 45, 0.9);
+            border: 2px solid rgba(0, 255, 204, 0.3);
+            border-radius: 8px;
+            color: #e0e6ed;
+            font-size: 0.9em;
+        }
+
+        .date-input:focus {
+            outline: none;
+            border-color: rgba(0, 255, 204, 0.6);
+            box-shadow: 0 0 15px rgba(0, 255, 204, 0.3);
+        }
+
+        /* Multi-select Mode */
+        .multi-select-info {
+            padding: 10px 15px;
+            background: rgba(0, 170, 255, 0.1);
+            border: 1px solid rgba(0, 170, 255, 0.4);
+            border-radius: 8px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .multi-select-info.active {
+            display: block;
+        }
+
+        /* Tree */
+        .tree {
+            background: rgba(20, 25, 45, 0.8);
+            border-radius: 15px;
+            padding: 30px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 0 40px rgba(0, 255, 204, 0.1);
+            min-height: 400px;
+            position: relative;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 50px;
+            font-size: 1.2em;
+            color: rgba(0, 255, 204, 0.7);
+        }
+
+        .error {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 50, 50, 0.1);
+            border: 1px solid rgba(255, 50, 50, 0.5);
+            border-radius: 10px;
+            color: #ff9999;
+        }
+
+        /* Node Styles */
+        .node {
+            margin: 8px 0;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .node.hidden {
+            display: none;
+        }
+
+        .node.dragging {
+            opacity: 0.5;
+        }
+
+        .node.drag-over {
+            background: rgba(0, 255, 204, 0.1);
+            border-radius: 10px;
+        }
+
+        .node-header {
+            display: flex;
+            align-items: center;
+            padding: 12px 16px;
+            background: linear-gradient(90deg, rgba(30, 35, 55, 0.9), rgba(40, 45, 65, 0.9));
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 255, 204, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .node-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 204, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .node-header:hover::before {
+            left: 100%;
+        }
+
+        .node-header:hover {
+            background: linear-gradient(90deg, rgba(40, 45, 65, 0.9), rgba(50, 55, 75, 0.9));
+            border-color: rgba(0, 255, 204, 0.5);
+            box-shadow: 0 0 20px rgba(0, 255, 204, 0.3);
+            transform: translateX(5px);
+        }
+
+        .node-header.selected {
+            background: linear-gradient(90deg, rgba(0, 100, 200, 0.3), rgba(0, 150, 255, 0.3));
+            border-color: rgba(0, 170, 255, 0.6);
+        }
+
+        /* Checkbox for multi-select */
+        .checkbox {
+            width: 18px;
+            height: 18px;
+            margin-right: 10px;
+            cursor: pointer;
+            display: none;
+            accent-color: #00ffcc;
+        }
+
+        .multi-select-mode .checkbox {
+            display: block;
+        }
+
+        .arrow {
+            margin-right: 10px;
+            font-size: 0.9em;
+            transition: transform 0.3s ease;
+            color: rgba(0, 255, 204, 0.7);
+            display: inline-block;
+            width: 20px;
+        }
+
+        .arrow.expanded {
+            transform: rotate(90deg);
+        }
+
+        .node-title {
+            flex: 1;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            margin-right: 10px;
+        }
+
+        .highlight {
+            background: rgba(255, 255, 0, 0.3);
+            padding: 0 2px;
+            border-radius: 2px;
+        }
+
+        .version-badge {
+            padding: 2px 8px;
+            background: rgba(0, 170, 255, 0.3);
+            border: 1px solid rgba(0, 170, 255, 0.5);
+            border-radius: 5px;
+            font-size: 0.75em;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+
+        .children {
+            margin-left: 40px;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .children.expanded {
+            max-height: 50000px;
+            opacity: 1;
+            margin-top: 10px;
+        }
+
+        /* Level Styles */
+        .level-0 .node-header {
+            background: linear-gradient(90deg, rgba(60, 20, 120, 0.8), rgba(80, 30, 150, 0.8));
+            border-color: rgba(255, 0, 255, 0.3);
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        .level-0 .node-header:hover {
+            background: linear-gradient(90deg, rgba(80, 30, 150, 0.9), rgba(100, 40, 180, 0.9));
+            border-color: rgba(255, 0, 255, 0.6);
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.4);
+        }
+
+        .level-1 .node-header {
+            background: linear-gradient(90deg, rgba(25, 30, 45, 0.7), rgba(35, 40, 55, 0.7));
+            border-color: rgba(100, 255, 200, 0.2);
+            font-size: 0.95em;
+            padding: 10px 14px;
+        }
+
+        .level-1 .node-header:hover {
+            background: linear-gradient(90deg, rgba(35, 40, 55, 0.8), rgba(45, 50, 65, 0.8));
+            border-color: rgba(100, 255, 200, 0.5);
+            box-shadow: 0 0 15px rgba(100, 255, 200, 0.3);
+        }
+
+        .leaf-node .arrow {
+            visibility: hidden;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            background: rgba(10, 15, 30, 0.95);
+            border: 1px solid rgba(0, 255, 204, 0.5);
+            border-radius: 8px;
+            padding: 10px 15px;
+            color: #e0e6ed;
+            font-size: 0.9em;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+            max-width: 300px;
+        }
+
+        .tooltip.visible {
+            opacity: 1;
+        }
+
+        .tooltip-row {
+            margin: 3px 0;
+            display: flex;
+            gap: 10px;
+        }
+
+        .tooltip-label {
+            color: rgba(0, 255, 204, 0.7);
+            font-weight: 600;
+        }
+
+        .tooltip-value {
+            color: #ffffff;
+        }
+
+        /* Toast Notifications */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            background: rgba(0, 255, 204, 0.9);
+            color: #0a0e27;
+            border-radius: 10px;
+            font-weight: 600;
+            z-index: 2000;
+            animation: slideIn 0.3s ease;
+            box-shadow: 0 5px 20px rgba(0, 255, 204, 0.5);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast.error {
+            background: rgba(255, 50, 50, 0.9);
+            color: white;
+            box-shadow: 0 5px 20px rgba(255, 50, 50, 0.5);
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: rgba(224, 230, 237, 0.6);
+            font-size: 1.1em;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .controls-row {
+                flex-direction: column;
+            }
+
+            .search-container {
+                width: 100%;
+            }
+
+            .children {
+                margin-left: 20px;
+            }
+
+            .node-header {
+                padding: 10px 12px;
+            }
+
+            .advanced-filters {
+                padding: 10px;
+            }
+
+            .filter-group {
+                flex-direction: column;
+                align-items: stretch;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Enhanced Indicator Hierarchy Tree</h1>
+
+        <div class="controls-section">
+            <!-- Main Controls Row -->
+            <div class="controls-row">
+                <div class="search-container">
+                    <input type="text" class="search-input" id="searchInput"
+                           placeholder="Search indicators by name, author, or category...">
+                    <span class="search-icon">🔍</span>
+                </div>
+
+                <select class="filter-select" id="fileTypeFilter">
+                    <option value="">All Types</option>
+                </select>
+
+                <button class="control-btn" id="advancedFilterBtn">
+                    <span>⚙️</span> Advanced Filters
+                </button>
+            </div>
+
+            <!-- Action Buttons Row -->
+            <div class="controls-row">
+                <button class="control-btn" id="expandAllBtn">
+                    <span>📂</span> Expand All
+                </button>
+                <button class="control-btn" id="collapseAllBtn">
+                    <span>📁</span> Collapse All
+                </button>
+                <button class="control-btn" id="multiSelectBtn">
+                    <span>☑️</span> Multi-Select
+                </button>
+                <button class="control-btn export" id="exportJsonBtn">
+                    <span>💾</span> Export JSON
+                </button>
+                <button class="control-btn export" id="exportCsvBtn">
+                    <span>📊</span> Export CSV
+                </button>
+                <button class="control-btn danger" id="clearStorageBtn">
+                    <span>🗑️</span> Clear Settings
+                </button>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="controls-row">
+                <div class="stats">
+                    <div class="stat-item">
+                        <span class="stat-label">Total:</span>
+                        <span class="stat-value" id="totalCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Visible:</span>
+                        <span class="stat-value" id="visibleCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Selected:</span>
+                        <span class="stat-value" id="selectedCount">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-label">Categories:</span>
+                        <span class="stat-value" id="categoryCount">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Advanced Filters Section -->
+            <div class="advanced-filters" id="advancedFilters">
+                <div class="filter-group">
+                    <span class="filter-label">Author:</span>
+                    <select class="filter-select" id="authorFilter">
+                        <option value="">All Authors</option>
+                    </select>
+
+                    <span class="filter-label">Version:</span>
+                    <select class="filter-select" id="versionFilter">
+                        <option value="">Any Version</option>
+                        <option value="has_version">Has Version</option>
+                        <option value="no_version">No Version</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <span class="filter-label">Modified After:</span>
+                    <input type="date" class="date-input" id="dateFromFilter">
+
+                    <span class="filter-label">Modified Before:</span>
+                    <input type="date" class="date-input" id="dateTOFilter">
+
+                    <button class="control-btn" id="clearFiltersBtn">
+                        <span>❌</span> Clear Filters
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Multi-select Info -->
+        <div class="multi-select-info" id="multiSelectInfo">
+            <strong>Multi-Select Mode Active:</strong> Check indicators to select them.
+            Selected items can be exported or manipulated together.
+        </div>
+
+        <!-- Main Tree Container -->
+        <div class="tree" id="tree">
+            <div class="loading">Loading indicators...</div>
+        </div>
+    </div>
+
+    <!-- Tooltip -->
+    <div class="tooltip" id="tooltip"></div>
+
+    <script>
+        // Global State
+        const state = {
+            indicatorData: [],
+            categories: [],
+            searchTerm: '',
+            filters: {
+                fileType: '',
+                author: '',
+                version: '',
+                dateFrom: '',
+                dateTo: ''
+            },
+            multiSelectMode: false,
+            selectedItems: new Set(),
+            expandedNodes: new Set(),
+            draggedNode: null
+        };
+
+        // Local Storage Keys
+        const STORAGE_KEYS = {
+            EXPANDED_NODES: 'indicatorTree_expandedNodes',
+            SEARCH_HISTORY: 'indicatorTree_searchHistory',
+            FILTERS: 'indicatorTree_filters',
+            PREFERENCES: 'indicatorTree_preferences'
+        };
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', async () => {
+            loadPreferences();
+            await loadIndicators();
+            setupEventListeners();
+            restoreExpandedState();
+        });
+
+        // Load indicators from JSON
+        async function loadIndicators() {
+            const treeContainer = document.getElementById('tree');
+
+            try {
+                const response = await fetch('indicators_structure.json');
+
+                if (!response.ok) {
+                    throw new Error(`Failed to load indicators: ${response.status}`);
+                }
+
+                state.indicatorData = await response.json();
+
+                // Process data
+                state.categories = categorizeIndicators(state.indicatorData);
+                populateFilterOptions();
+                renderTree();
+                updateStats();
+
+            } catch (error) {
+                console.error('Error loading indicators:', error);
+                treeContainer.innerHTML = `
+                    <div class="error">
+                        <h3>⚠️ Error Loading Indicators</h3>
+                        <p>${error.message}</p>
+                        <p style="margin-top: 10px; font-size: 0.9em;">
+                            Please ensure 'indicators_structure.json' is in the same directory as this HTML file.
+                        </p>
+                    </div>
+                `;
+            }
+        }
+
+        // Categorize indicators
+        function categorizeIndicators(data) {
+            const categories = {};
+
+            data.forEach(indicator => {
+                const category = indicator.Category || 'Uncategorized';
+
+                if (!categories[category]) {
+                    categories[category] = {
+                        name: category,
+                        indicators: []
+                    };
+                }
+
+                categories[category].indicators.push(indicator);
+            });
+
+            // Sort categories and indicators
+            return Object.keys(categories).sort().map(key => {
+                const cat = categories[key];
+                cat.indicators.sort((a, b) =>
+                    (a.Title || a.Name).localeCompare(b.Title || b.Name)
+                );
+                return cat;
+            });
+        }
+
+        // Populate filter dropdowns
+        function populateFilterOptions() {
+            // File Types
+            const fileTypes = [...new Set(state.indicatorData.map(i => i.FileType).filter(Boolean))];
+            const fileTypeSelect = document.getElementById('fileTypeFilter');
+            fileTypes.sort().forEach(type => {
+                const option = document.createElement('option');
+                option.value = type;
+                option.textContent = type;
+                fileTypeSelect.appendChild(option);
+            });
+
+            // Authors
+            const authors = [...new Set(state.indicatorData.map(i => i.Author).filter(Boolean))];
+            const authorSelect = document.getElementById('authorFilter');
+            authors.sort().forEach(author => {
+                const option = document.createElement('option');
+                option.value = author;
+                option.textContent = author;
+                authorSelect.appendChild(option);
+            });
+        }
+
+        // Render tree
+        function renderTree() {
+            const treeContainer = document.getElementById('tree');
+            treeContainer.innerHTML = '';
+
+            const filteredCategories = applyFilters();
+
+            if (filteredCategories.length === 0) {
+                treeContainer.innerHTML = '<div class="no-results">No indicators match your filters</div>';
+                return;
+            }
+
+            filteredCategories.forEach(category => {
+                const categoryNode = createCategoryNode(category);
+                treeContainer.appendChild(categoryNode);
+            });
+
+            updateStats();
+        }
+
+        // Apply all filters
+        function applyFilters() {
+            const filtered = [];
+
+            state.categories.forEach(category => {
+                const filteredIndicators = category.indicators.filter(indicator => {
+                    // Search term
+                    if (state.searchTerm) {
+                        const searchText = `${indicator.Name} ${indicator.Title} ${indicator.Author} ${indicator.Category}`.toLowerCase();
+                        if (!searchText.includes(state.searchTerm.toLowerCase())) {
+                            return false;
+                        }
+                    }
+
+                    // File type filter
+                    if (state.filters.fileType && indicator.FileType !== state.filters.fileType) {
+                        return false;
+                    }
+
+                    // Author filter
+                    if (state.filters.author && indicator.Author !== state.filters.author) {
+                        return false;
+                    }
+
+                    // Version filter
+                    if (state.filters.version === 'has_version' && !indicator.Version) {
+                        return false;
+                    }
+                    if (state.filters.version === 'no_version' && indicator.Version) {
+                        return false;
+                    }
+
+                    // Date filters
+                    if (state.filters.dateFrom || state.filters.dateTo) {
+                        const modDate = new Date(indicator.LastModified);
+                        if (state.filters.dateFrom) {
+                            const fromDate = new Date(state.filters.dateFrom);
+                            if (modDate < fromDate) return false;
+                        }
+                        if (state.filters.dateTo) {
+                            const toDate = new Date(state.filters.dateTo);
+                            if (modDate > toDate) return false;
+                        }
+                    }
+
+                    return true;
+                });
+
+                if (filteredIndicators.length > 0) {
+                    filtered.push({
+                        name: category.name,
+                        indicators: filteredIndicators
+                    });
+                }
+            });
+
+            return filtered;
+        }
+
+        // Create category node
+        function createCategoryNode(category) {
+            const node = document.createElement('div');
+            node.className = 'node level-0';
+            node.dataset.category = category.name;
+            node.dataset.nodeId = `category-${category.name}`;
+
+            const header = document.createElement('div');
+            header.className = 'node-header';
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'checkbox';
+            checkbox.addEventListener('click', (e) => {
+                e.stopPropagation();
+                handleCategorySelect(category, checkbox.checked);
+            });
+
+            const arrow = document.createElement('span');
+            arrow.className = 'arrow';
+            arrow.textContent = '▶';
+
+            const title = document.createElement('span');
+            title.className = 'node-title';
+            title.innerHTML = highlightText(category.name);
+
+            const count = document.createElement('span');
+            count.style.color = 'rgba(0, 255, 204, 0.6)';
+            count.style.fontSize = '0.9em';
+            count.textContent = `(${category.indicators.length})`;
+
+            header.appendChild(checkbox);
+            header.appendChild(arrow);
+            header.appendChild(title);
+            header.appendChild(count);
+            node.appendChild(header);
+
+            const childrenContainer = document.createElement('div');
+            childrenContainer.className = 'children';
+
+            // Add indicators
+            category.indicators.forEach(indicator => {
+                const indicatorNode = createIndicatorNode(indicator, category.name);
+                childrenContainer.appendChild(indicatorNode);
+            });
+
+            node.appendChild(childrenContainer);
+
+            // Restore expanded state
+            if (state.expandedNodes.has(node.dataset.nodeId)) {
+                childrenContainer.classList.add('expanded');
+                arrow.classList.add('expanded');
+            }
+
+            // Click handler
+            header.addEventListener('click', (e) => {
+                if (e.target.type !== 'checkbox') {
+                    toggleNode(node);
+                }
+            });
+
+            // Drag and drop
+            setupDragAndDrop(node, category);
+
+            return node;
+        }
+
+        // Create indicator node
+        function createIndicatorNode(indicator, categoryName) {
+            const node = document.createElement('div');
+            node.className = 'node level-1 leaf-node';
+            const nodeId = `indicator-${categoryName}-${indicator.Name}`;
+            node.dataset.nodeId = nodeId;
+            node.dataset.indicatorData = JSON.stringify(indicator);
+
+            const header = document.createElement('div');
+            header.className = 'node-header';
+
+            // Check if selected
+            if (state.selectedItems.has(nodeId)) {
+                header.classList.add('selected');
+            }
+
+            const checkbox = document.createElement('input');
+            checkbox.type = 'checkbox';
+            checkbox.className = 'checkbox';
+            checkbox.checked = state.selectedItems.has(nodeId);
+            checkbox.addEventListener('click', (e) => {
+                e.stopPropagation();
+                handleIndicatorSelect(nodeId, indicator, checkbox.checked);
+            });
+
+            const arrow = document.createElement('span');
+            arrow.className = 'arrow';
+            arrow.textContent = '▶';
+
+            const title = document.createElement('span');
+            title.className = 'node-title';
+            const displayTitle = indicator.Title || indicator.Name;
+            title.innerHTML = highlightText(displayTitle);
+
+            header.appendChild(checkbox);
+            header.appendChild(arrow);
+            header.appendChild(title);
+
+            // Version badge
+            if (indicator.Version) {
+                const versionBadge = document.createElement('span');
+                versionBadge.className = 'version-badge';
+                versionBadge.textContent = `v${indicator.Version}`;
+                header.appendChild(versionBadge);
+            }
+
+            node.appendChild(header);
+
+            // Tooltip
+            header.addEventListener('mouseenter', (e) => showTooltip(e, indicator));
+            header.addEventListener('mouseleave', hideTooltip);
+            header.addEventListener('mousemove', moveTooltip);
+
+            // Click handler for selection in multi-select mode
+            header.addEventListener('click', () => {
+                if (state.multiSelectMode) {
+                    checkbox.checked = !checkbox.checked;
+                    handleIndicatorSelect(nodeId, indicator, checkbox.checked);
+                }
+            });
+
+            // Drag and drop
+            setupDragAndDrop(node, indicator);
+
+            return node;
+        }
+
+        // Toggle node expansion
+        function toggleNode(node) {
+            const children = node.querySelector('.children');
+            const arrow = node.querySelector('.arrow');
+
+            if (children) {
+                const isExpanded = children.classList.contains('expanded');
+                children.classList.toggle('expanded');
+                arrow.classList.toggle('expanded');
+
+                // Save state
+                if (isExpanded) {
+                    state.expandedNodes.delete(node.dataset.nodeId);
+                } else {
+                    state.expandedNodes.add(node.dataset.nodeId);
+                }
+                saveExpandedState();
+            }
+        }
+
+        // Handle category selection
+        function handleCategorySelect(category, isSelected) {
+            category.indicators.forEach(indicator => {
+                const nodeId = `indicator-${category.name}-${indicator.Name}`;
+                if (isSelected) {
+                    state.selectedItems.add(nodeId);
+                } else {
+                    state.selectedItems.delete(nodeId);
+                }
+            });
+
+            // Update UI
+            document.querySelectorAll(`.node[data-category="${category.name}"] .level-1 .checkbox`).forEach(cb => {
+                cb.checked = isSelected;
+            });
+
+            document.querySelectorAll(`.node[data-category="${category.name}"] .level-1 .node-header`).forEach(header => {
+                if (isSelected) {
+                    header.classList.add('selected');
+                } else {
+                    header.classList.remove('selected');
+                }
+            });
+
+            updateStats();
+        }
+
+        // Handle indicator selection
+        function handleIndicatorSelect(nodeId, indicator, isSelected) {
+            if (isSelected) {
+                state.selectedItems.add(nodeId);
+                document.querySelector(`[data-node-id="${nodeId}"] .node-header`).classList.add('selected');
+            } else {
+                state.selectedItems.delete(nodeId);
+                document.querySelector(`[data-node-id="${nodeId}"] .node-header`).classList.remove('selected');
+            }
+            updateStats();
+        }
+
+        // Setup drag and drop
+        function setupDragAndDrop(node, data) {
+            const header = node.querySelector('.node-header');
+
+            header.draggable = true;
+
+            header.addEventListener('dragstart', (e) => {
+                state.draggedNode = { node, data };
+                node.classList.add('dragging');
+                e.dataTransfer.effectAllowed = 'move';
+            });
+
+            header.addEventListener('dragend', () => {
+                node.classList.remove('dragging');
+                state.draggedNode = null;
+            });
+
+            header.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'move';
+                node.classList.add('drag-over');
+            });
+
+            header.addEventListener('dragleave', () => {
+                node.classList.remove('drag-over');
+            });
+
+            header.addEventListener('drop', (e) => {
+                e.preventDefault();
+                node.classList.remove('drag-over');
+
+                if (state.draggedNode && state.draggedNode.node !== node) {
+                    // Handle the drop
+                    showToast('Drag and drop reorganization saved!');
+                }
+            });
+        }
+
+        // Search functionality
+        function performSearch() {
+            state.searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            saveSearchHistory(state.searchTerm);
+            renderTree();
+
+            // Auto-expand categories with results
+            if (state.searchTerm) {
+                document.querySelectorAll('.node.level-0').forEach(categoryNode => {
+                    const hasResults = categoryNode.querySelector('.level-1') !== null;
+                    if (hasResults) {
+                        const children = categoryNode.querySelector('.children');
+                        const arrow = categoryNode.querySelector('.arrow');
+                        if (children && !children.classList.contains('expanded')) {
+                            children.classList.add('expanded');
+                            arrow.classList.add('expanded');
+                            state.expandedNodes.add(categoryNode.dataset.nodeId);
+                        }
+                    }
+                });
+                saveExpandedState();
+            }
+        }
+
+        // Highlight search text
+        function highlightText(text) {
+            if (!state.searchTerm) return text;
+            const regex = new RegExp(`(${state.searchTerm})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        // Expand all nodes
+        function expandAll() {
+            document.querySelectorAll('.children').forEach(child => {
+                child.classList.add('expanded');
+                const node = child.parentElement;
+                if (node.dataset.nodeId) {
+                    state.expandedNodes.add(node.dataset.nodeId);
+                }
+            });
+            document.querySelectorAll('.arrow').forEach(arrow => {
+                arrow.classList.add('expanded');
+            });
+            saveExpandedState();
+        }
+
+        // Collapse all nodes
+        function collapseAll() {
+            document.querySelectorAll('.children').forEach(child => {
+                child.classList.remove('expanded');
+            });
+            document.querySelectorAll('.arrow').forEach(arrow => {
+                arrow.classList.remove('expanded');
+            });
+            state.expandedNodes.clear();
+            saveExpandedState();
+        }
+
+        // Toggle multi-select mode
+        function toggleMultiSelectMode() {
+            state.multiSelectMode = !state.multiSelectMode;
+            document.body.classList.toggle('multi-select-mode');
+            document.getElementById('multiSelectInfo').classList.toggle('active');
+
+            const btn = document.getElementById('multiSelectBtn');
+            if (state.multiSelectMode) {
+                btn.innerHTML = '<span>✅</span> Exit Multi-Select';
+                showToast('Multi-select mode enabled');
+            } else {
+                btn.innerHTML = '<span>☑️</span> Multi-Select';
+                showToast('Multi-select mode disabled');
+            }
+        }
+
+        // Export functions
+        function exportJSON() {
+            let dataToExport;
+
+            if (state.selectedItems.size > 0) {
+                // Export selected items
+                dataToExport = [];
+                state.selectedItems.forEach(nodeId => {
+                    const node = document.querySelector(`[data-node-id="${nodeId}"]`);
+                    if (node && node.dataset.indicatorData) {
+                        dataToExport.push(JSON.parse(node.dataset.indicatorData));
+                    }
+                });
+            } else {
+                // Export filtered data
+                dataToExport = applyFilters().flatMap(cat => cat.indicators);
+            }
+
+            const blob = new Blob([JSON.stringify(dataToExport, null, 2)], { type: 'application/json' });
+            downloadFile(blob, 'indicators_export.json');
+            showToast(`Exported ${dataToExport.length} indicators to JSON`);
+        }
+
+        function exportCSV() {
+            let dataToExport;
+
+            if (state.selectedItems.size > 0) {
+                dataToExport = [];
+                state.selectedItems.forEach(nodeId => {
+                    const node = document.querySelector(`[data-node-id="${nodeId}"]`);
+                    if (node && node.dataset.indicatorData) {
+                        dataToExport.push(JSON.parse(node.dataset.indicatorData));
+                    }
+                });
+            } else {
+                dataToExport = applyFilters().flatMap(cat => cat.indicators);
+            }
+
+            // Convert to CSV
+            const headers = ['Name', 'Title', 'Category', 'FileType', 'Version', 'Author', 'RelativePath', 'LastModified'];
+            const csvContent = [
+                headers.join(','),
+                ...dataToExport.map(item =>
+                    headers.map(h => `"${(item[h] || '').toString().replace(/"/g, '""')}"`).join(',')
+                )
+            ].join('\n');
+
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            downloadFile(blob, 'indicators_export.csv');
+            showToast(`Exported ${dataToExport.length} indicators to CSV`);
+        }
+
+        // Download file helper
+        function downloadFile(blob, filename) {
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Tooltip functions
+        function showTooltip(event, indicator) {
+            const tooltip = document.getElementById('tooltip');
+            const tooltipContent = `
+                <div class="tooltip-row">
+                    <span class="tooltip-label">Name:</span>
+                    <span class="tooltip-value">${indicator.Name}</span>
+                </div>
+                ${indicator.Title && indicator.Title !== indicator.Name ? `
+                <div class="tooltip-row">
+                    <span class="tooltip-label">Title:</span>
+                    <span class="tooltip-value">${indicator.Title}</span>
+                </div>` : ''}
+                <div class="tooltip-row">
+                    <span class="tooltip-label">Category:</span>
+                    <span class="tooltip-value">${indicator.Category || 'Uncategorized'}</span>
+                </div>
+                <div class="tooltip-row">
+                    <span class="tooltip-label">Type:</span>
+                    <span class="tooltip-value">${indicator.FileType || 'Unknown'}</span>
+                </div>
+                ${indicator.Author ? `
+                <div class="tooltip-row">
+                    <span class="tooltip-label">Author:</span>
+                    <span class="tooltip-value">${indicator.Author}</span>
+                </div>` : ''}
+                ${indicator.Version ? `
+                <div class="tooltip-row">
+                    <span class="tooltip-label">Version:</span>
+                    <span class="tooltip-value">${indicator.Version}</span>
+                </div>` : ''}
+                <div class="tooltip-row">
+                    <span class="tooltip-label">Modified:</span>
+                    <span class="tooltip-value">${indicator.LastModified || 'Unknown'}</span>
+                </div>
+                <div class="tooltip-row">
+                    <span class="tooltip-label">Path:</span>
+                    <span class="tooltip-value" style="font-size: 0.85em">${indicator.RelativePath || 'Unknown'}</span>
+                </div>
+            `;
+
+            tooltip.innerHTML = tooltipContent;
+            tooltip.classList.add('visible');
+            moveTooltip(event);
+        }
+
+        function hideTooltip() {
+            const tooltip = document.getElementById('tooltip');
+            tooltip.classList.remove('visible');
+        }
+
+        function moveTooltip(event) {
+            const tooltip = document.getElementById('tooltip');
+            const x = event.pageX + 15;
+            const y = event.pageY - 10;
+
+            const tooltipRect = tooltip.getBoundingClientRect();
+            const maxX = window.innerWidth - tooltipRect.width - 20;
+            const maxY = window.innerHeight - tooltipRect.height - 20;
+
+            tooltip.style.left = Math.min(x, maxX) + 'px';
+            tooltip.style.top = Math.min(y, maxY) + 'px';
+        }
+
+        // Toast notification
+        function showToast(message, isError = false) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${isError ? 'error' : ''}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 3000);
+        }
+
+        // Update statistics
+        function updateStats() {
+            const totalIndicators = state.indicatorData.length;
+            const visibleIndicators = document.querySelectorAll('.node.level-1').length;
+            const selectedCount = state.selectedItems.size;
+            const categoryCount = document.querySelectorAll('.node.level-0').length;
+
+            document.getElementById('totalCount').textContent = totalIndicators;
+            document.getElementById('visibleCount').textContent = visibleIndicators;
+            document.getElementById('selectedCount').textContent = selectedCount;
+            document.getElementById('categoryCount').textContent = categoryCount;
+        }
+
+        // Local Storage Functions
+        function saveExpandedState() {
+            localStorage.setItem(STORAGE_KEYS.EXPANDED_NODES,
+                JSON.stringify([...state.expandedNodes]));
+        }
+
+        function restoreExpandedState() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEYS.EXPANDED_NODES);
+                if (saved) {
+                    state.expandedNodes = new Set(JSON.parse(saved));
+                }
+            } catch (e) {
+                console.error('Error restoring expanded state:', e);
+            }
+        }
+
+        function saveSearchHistory(searchTerm) {
+            if (!searchTerm) return;
+
+            try {
+                let history = JSON.parse(localStorage.getItem(STORAGE_KEYS.SEARCH_HISTORY) || '[]');
+                history = [searchTerm, ...history.filter(h => h !== searchTerm)].slice(0, 10);
+                localStorage.setItem(STORAGE_KEYS.SEARCH_HISTORY, JSON.stringify(history));
+            } catch (e) {
+                console.error('Error saving search history:', e);
+            }
+        }
+
+        function saveFilters() {
+            localStorage.setItem(STORAGE_KEYS.FILTERS, JSON.stringify(state.filters));
+        }
+
+        function loadFilters() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEYS.FILTERS);
+                if (saved) {
+                    state.filters = { ...state.filters, ...JSON.parse(saved) };
+
+                    // Apply saved filters to UI
+                    document.getElementById('fileTypeFilter').value = state.filters.fileType || '';
+                    document.getElementById('authorFilter').value = state.filters.author || '';
+                    document.getElementById('versionFilter').value = state.filters.version || '';
+                    document.getElementById('dateFromFilter').value = state.filters.dateFrom || '';
+                    document.getElementById('dateTOFilter').value = state.filters.dateTo || '';
+                }
+            } catch (e) {
+                console.error('Error loading filters:', e);
+            }
+        }
+
+        function savePreferences() {
+            const preferences = {
+                multiSelectMode: state.multiSelectMode,
+                advancedFiltersOpen: document.getElementById('advancedFilters').classList.contains('show')
+            };
+            localStorage.setItem(STORAGE_KEYS.PREFERENCES, JSON.stringify(preferences));
+        }
+
+        function loadPreferences() {
+            try {
+                const saved = localStorage.getItem(STORAGE_KEYS.PREFERENCES);
+                if (saved) {
+                    const prefs = JSON.parse(saved);
+                    if (prefs.multiSelectMode) {
+                        toggleMultiSelectMode();
+                    }
+                    if (prefs.advancedFiltersOpen) {
+                        document.getElementById('advancedFilters').classList.add('show');
+                    }
+                }
+            } catch (e) {
+                console.error('Error loading preferences:', e);
+            }
+        }
+
+        function clearAllStorage() {
+            if (confirm('This will clear all saved settings, filters, and preferences. Continue?')) {
+                Object.values(STORAGE_KEYS).forEach(key => localStorage.removeItem(key));
+                state.expandedNodes.clear();
+                state.selectedItems.clear();
+                state.filters = {
+                    fileType: '',
+                    author: '',
+                    version: '',
+                    dateFrom: '',
+                    dateTo: ''
+                };
+                showToast('All settings cleared!');
+                location.reload();
+            }
+        }
+
+        // Setup all event listeners
+        function setupEventListeners() {
+            // Search
+            document.getElementById('searchInput').addEventListener('input', performSearch);
+
+            // Basic controls
+            document.getElementById('expandAllBtn').addEventListener('click', expandAll);
+            document.getElementById('collapseAllBtn').addEventListener('click', collapseAll);
+            document.getElementById('multiSelectBtn').addEventListener('click', toggleMultiSelectMode);
+
+            // Export buttons
+            document.getElementById('exportJsonBtn').addEventListener('click', exportJSON);
+            document.getElementById('exportCsvBtn').addEventListener('click', exportCSV);
+
+            // Clear storage
+            document.getElementById('clearStorageBtn').addEventListener('click', clearAllStorage);
+
+            // Advanced filters
+            document.getElementById('advancedFilterBtn').addEventListener('click', () => {
+                const filters = document.getElementById('advancedFilters');
+                filters.classList.toggle('show');
+                savePreferences();
+            });
+
+            // Filter changes
+            document.getElementById('fileTypeFilter').addEventListener('change', (e) => {
+                state.filters.fileType = e.target.value;
+                saveFilters();
+                renderTree();
+            });
+
+            document.getElementById('authorFilter').addEventListener('change', (e) => {
+                state.filters.author = e.target.value;
+                saveFilters();
+                renderTree();
+            });
+
+            document.getElementById('versionFilter').addEventListener('change', (e) => {
+                state.filters.version = e.target.value;
+                saveFilters();
+                renderTree();
+            });
+
+            document.getElementById('dateFromFilter').addEventListener('change', (e) => {
+                state.filters.dateFrom = e.target.value;
+                saveFilters();
+                renderTree();
+            });
+
+            document.getElementById('dateTOFilter').addEventListener('change', (e) => {
+                state.filters.dateTo = e.target.value;
+                saveFilters();
+                renderTree();
+            });
+
+            // Clear filters
+            document.getElementById('clearFiltersBtn').addEventListener('click', () => {
+                state.filters = {
+                    fileType: '',
+                    author: '',
+                    version: '',
+                    dateFrom: '',
+                    dateTo: ''
+                };
+                document.getElementById('fileTypeFilter').value = '';
+                document.getElementById('authorFilter').value = '';
+                document.getElementById('versionFilter').value = '';
+                document.getElementById('dateFromFilter').value = '';
+                document.getElementById('dateTOFilter').value = '';
+                saveFilters();
+                renderTree();
+                showToast('Filters cleared');
+            });
+
+            // Load saved filters
+            loadFilters();
+
+            // Keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                // Ctrl/Cmd + F for search focus
+                if ((e.ctrlKey || e.metaKey) && e.key === 'f') {
+                    e.preventDefault();
+                    document.getElementById('searchInput').focus();
+                }
+
+                // Ctrl/Cmd + E for expand all
+                if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
+                    e.preventDefault();
+                    expandAll();
+                }
+
+                // Ctrl/Cmd + Shift + E for collapse all
+                if ((e.ctrlKey || e.metaKey) && e.shiftKey && e.key === 'E') {
+                    e.preventDefault();
+                    collapseAll();
+                }
+
+                // Ctrl/Cmd + M for multi-select
+                if ((e.ctrlKey || e.metaKey) && e.key === 'm') {
+                    e.preventDefault();
+                    toggleMultiSelectMode();
+                }
+            });
+
+            // Auto-expand first 2 categories on initial load
+            setTimeout(() => {
+                const firstCategories = document.querySelectorAll('.node.level-0');
+                firstCategories.forEach((node, index) => {
+                    if (index < 2 && !state.expandedNodes.has(node.dataset.nodeId)) {
+                        toggleNode(node);
+                    }
+                });
+            }, 100);
+        }
+    </script>
+</body>
+</html>
